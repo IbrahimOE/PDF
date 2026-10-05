@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dev-dist/
+public/pdfjs/
+.env.local
+.env.*.local
+.firebase/
+*.log
+.DS_Store
+public/ocr/

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>PDF Atelier</title>
+    <meta name="description" content="PDFs zusammenführen, Seiten auswählen und durchsuchen – kostenlos, auf Windows und Smartphone." />
+    <meta name="theme-color" content="#6D5BFF" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PDF Atelier" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <style>
+      html, body { margin: 0; background: #f6f5ff; }
+      @media (prefers-color-scheme: dark) { html, body { background: #0e0c18; } }
+      .splash { position: fixed; inset: 0; z-index: 1000; display: grid; place-content: center; justify-items: center; gap: 28px; }
+      .splash img { border-radius: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="splash" class="splash" aria-hidden="true">
+      <img src="/icons/icon.svg" alt="" width="88" height="88" />
+      <div class="splash-bar"><span></span></div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

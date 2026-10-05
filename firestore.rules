@@ -1,0 +1,20 @@
+rules_version = '2';
+
+// Jede Person darf ausschließlich ihr eigenes Profil lesen und schreiben.
+// Die PDF-Dateien selbst werden nicht in Firebase gespeichert, sondern lokal auf dem Gerät.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['email', 'lang', 'tutorialDone', 'createdAt', 'updatedAt'])
+        && (!('lang' in request.resource.data) || request.resource.data.lang in ['de', 'fr'])
+        && (!('tutorialDone' in request.resource.data) || request.resource.data.tutorialDone is bool);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
