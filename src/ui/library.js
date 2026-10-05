@@ -207,6 +207,22 @@ function fileMeta(file) {
   return `${tn(file.pageCount, 'library.pages', 'library.page')} · ${formatBytes(file.size)} · ${t('library.added', { date: formatDate(file.addedAt) })}`;
 }
 
+/** Waagerechte Seitenleiste (Dokumentreihenfolge von links nach rechts) mit Blätter-Pfeilen. */
+function pageStrip(strip) {
+  const scrollBy = (dir) => strip.scrollBy({ left: dir * strip.clientWidth * 0.8, behavior: 'smooth' });
+  const prev = h('button.strip-nav.prev', { type: 'button', 'aria-label': t('viewer.prev'), onclick: () => scrollBy(-1) }, icon('chevronLeft', 22));
+  const next = h('button.strip-nav.next', { type: 'button', 'aria-label': t('viewer.next'), onclick: () => scrollBy(1) }, icon('chevronRight', 22));
+  const wrap = h('div.strip-wrap', {}, prev, strip, next);
+  const update = () => {
+    const max = strip.scrollWidth - strip.clientWidth;
+    wrap.classList.toggle('can-prev', strip.scrollLeft > 4);
+    wrap.classList.toggle('can-next', strip.scrollLeft < max - 4);
+  };
+  strip.addEventListener('scroll', update, { passive: true });
+  new ResizeObserver(update).observe(strip);
+  return wrap;
+}
+
 function gridView() {
   let stagger = 0;
   return h(
@@ -224,7 +240,7 @@ function gridView() {
           fileActions(file)
         ),
         ocrProgress(file),
-        h('div.page-grid', {}, pagesOfFile(file.id).map((p) => pageCard(p, { stagger: stagger++ })))
+        pageStrip(h('div.page-strip', {}, pagesOfFile(file.id).map((p) => pageCard(p, { stagger: stagger++ }))))
       )
     )
   );
@@ -275,8 +291,9 @@ function listView() {
       );
       const pages =
         expanded &&
+        pageStrip(
         h(
-          'div.row-pages',
+          'div.row-pages.page-strip',
           {},
           pagesOfFile(file.id).map((p) =>
             h(
@@ -314,7 +331,7 @@ function listView() {
               )
             )
           )
-        );
+        ));
       return h('div.file-block', {}, row, ocrProgress(file), pages);
     })
   );
