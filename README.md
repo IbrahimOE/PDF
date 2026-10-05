@@ -112,7 +112,7 @@ Gebaut wird sie kostenlos von **GitHub Actions** (`.github/workflows/windows-app
 
 1. **Adresse der Web-App hinterlegen:** GitHub → Repository → *Settings → Secrets and variables →
    Actions → Reiter „Variables“ → New repository variable*: Name `APP_URL`, Wert z. B.
-   `https://pdf-atelier.vercel.app`.
+   `https://DEINE-ADRESSE.vercel.app`.
 2. **Bauen:** *Actions → „Windows-App bauen“ → Run workflow.* Nach ca. 5 Minuten liegt die Datei
    unter *Releases*.
 3. **Download-Link:** Die Website verlinkt automatisch auf

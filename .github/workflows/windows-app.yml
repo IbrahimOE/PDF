@@ -41,7 +41,7 @@ jobs:
           APP_URL: ${{ inputs.app_url || vars.APP_URL }}
         run: |
           if [ -z "$APP_URL" ]; then
-            echo "::error::Bitte unter Settings → Secrets and variables → Actions → Variables die Variable APP_URL anlegen (z. B. https://pdf-atelier.vercel.app)."
+            echo "::error::Bitte unter Settings → Secrets and variables → Actions → Variables die Variable APP_URL anlegen (z. B. https://DEINE-ADRESSE.vercel.app)."
             exit 1
           fi
           node -e "require('fs').writeFileSync('config.json', JSON.stringify({ appUrl: process.env.APP_URL.replace(/\/+$/, '') }, null, 2))"

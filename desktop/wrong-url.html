@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF Atelier</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0; min-height: 100vh; display: grid; place-items: center;
+        font-family: 'Segoe UI', system-ui, sans-serif; text-align: center;
+        background: #f6f5ff; color: #17142b;
+      }
+      @media (prefers-color-scheme: dark) { body { background: #0e0c18; color: #f3f1ff; } p { color: #b9b5d6 !important; } }
+      .box { max-width: 420px; padding: 24px; }
+      .logo { width: 84px; height: 84px; border-radius: 22px; margin: 0 auto 24px;
+        background: linear-gradient(135deg, #6d5bff, #b14cf0); box-shadow: 0 16px 40px rgba(109, 91, 255, .35); }
+      h1 { font-size: 22px; margin: 0 0 8px; }
+      p { color: #57536f; margin: 0 0 6px; line-height: 1.5; }
+      button { margin-top: 20px; padding: 12px 22px; border: 0; border-radius: 12px; font: inherit; font-weight: 600;
+        color: #fff; background: linear-gradient(135deg, #6d5bff, #a24cf0); cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="logo"></div>
+      <h1>Falsche Adresse · Mauvaise adresse</h1>
+      <p>Unter <b id="u"></b> wurde PDF Atelier nicht gefunden. Bitte in GitHub die Variable <b>APP_URL</b> auf die richtige Adresse setzen und die App neu bauen.</p>
+      <p>PDF Atelier est introuvable à cette adresse. Corrigez la variable <b>APP_URL</b> dans GitHub et reconstruisez l’application.</p>
+      
+    </div>
+    <script>
+      const url = new URLSearchParams(location.search).get('url');
+      document.getElementById('u').textContent = url || '';
+    </script>
+  </body>
+</html>

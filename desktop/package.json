@@ -18,6 +18,7 @@
       "main.js",
       "config.json",
       "offline.html",
+      "wrong-url.html",
       "build/icon.ico"
     ],
     "directories": {

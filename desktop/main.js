@@ -83,6 +83,16 @@ function createWindow() {
     }
   });
 
+  // Sicherung: Ist unter APP_URL wirklich unsere App erreichbar (und keine fremde Seite)?
+  win.webContents.on('did-finish-load', async () => {
+    const url = win.webContents.getURL();
+    if (!isAppUrl(url)) return;
+    const ours = await win.webContents
+      .executeJavaScript("!!document.querySelector('meta[name=\"pdf-atelier-app\"]')")
+      .catch(() => true);
+    if (!ours) win.loadFile(path.join(__dirname, 'wrong-url.html'), { query: { url: APP_URL } });
+  });
+
   win.loadURL(APP_URL);
 }
 
