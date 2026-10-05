@@ -195,6 +195,20 @@ export default {
   'install.update': 'Une nouvelle version est disponible.',
   'install.updateBtn': 'Mettre à jour',
 
+  // Téléchargement
+  'download.tab': 'Télécharger',
+  'download.title': 'Télécharger PDF Atelier',
+  'download.text': 'Utilisez PDF Atelier comme un vrai programme sur votre ordinateur ou comme application sur votre smartphone.',
+  'download.winTitle': 'Application Windows (.exe)',
+  'download.winText': 'Pour Windows 10 et 11. Avec raccourci sur le bureau et dans le menu Démarrer.',
+  'download.winBtn': 'Télécharger pour Windows',
+  'download.winHint': 'Si Windows affiche « Windows a protégé votre ordinateur » : cliquez sur « Informations complémentaires », puis sur « Exécuter quand même ».',
+  'download.pwaTitle': 'Installer sans téléchargement',
+  'download.pwaText': 'Installez directement depuis le navigateur (Edge ou Chrome) : léger, rapide et toujours à jour.',
+  'download.pwaBtn': 'Installer maintenant',
+  'download.mobileTitle': 'Smartphone',
+  'download.mobileText': 'Ajoutez l’application à l’écran d’accueil pour la lancer comme une vraie app.',
+
   // Tutoriel
   'tut.next': 'Suivant',
   'tut.back': 'Retour',
@@ -217,6 +231,8 @@ export default {
   'tut.tray.text': 'Les pages sélectionnées s’affichent ici. Glissez-les dans l’ordre voulu, faites-les pivoter et exportez le tout en un seul PDF.',
   'tut.lang.title': 'Changer de langue',
   'tut.lang.text': 'Ce menu permet de passer toute l’application en allemand ou en français.',
+  'tut.download.title': 'Télécharger le programme',
+  'tut.download.text': 'Obtenez ici PDF Atelier en tant que programme Windows (.exe) ou en tant qu’application pour votre smartphone.',
   'tut.menu.title': 'Votre compte',
   'tut.menu.text': 'Ici, vous pouvez installer l’application, relancer ce tutoriel et vous déconnecter.',
   'tut.done.title': 'Tout est prêt ! 🎉',

@@ -5,7 +5,8 @@ import * as actions from '../actions.js';
 import { langSwitch } from './langSwitch.js';
 import { mountLibrary, autoSelectFromSearch } from './library.js';
 import { mountTray } from './tray.js';
-import { promptInstall, onInstallChange, canInstall } from './install.js';
+import { promptInstall, canInstall } from './install.js';
+import { downloadButton } from './download.js';
 import { storageEstimate } from '../services/db.js';
 
 /** Hauptansicht nach der Anmeldung. */
@@ -24,25 +25,16 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
   });
 
   // ---------- Kopfzeile ----------
-  const installBtn = h(
-    'button.btn.ghost.sm.header-install',
-    { type: 'button', onclick: () => promptInstall() },
-    icon('install', 18),
-    h('span', { 'data-i18n': 'header.install' })
-  );
   const userMenu = buildUserMenu({ onLogout, onTutorial });
   const header = h(
     'header.app-header',
     {},
     h('div.brand', {}, h('img', { src: '/icons/icon.svg', alt: '', width: 34, height: 34 }), h('span', { 'data-i18n': 'app.name' })),
     h('div.header-spacer'),
-    installBtn,
+    downloadButton(),
     langSwitch({ onPick: onLangPicked }),
     userMenu.el
   );
-  const updateInstall = () => (installBtn.hidden = !canInstall());
-  updateInstall();
-  const offInstall = onInstallChange(updateInstall);
 
   // ---------- Werkzeugleiste ----------
   const searchInput = h('input.search-input', {
@@ -223,7 +215,6 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
   return {
     destroy() {
       offs.forEach((off) => off());
-      offInstall();
       lib.destroy();
       trayCtl.destroy();
       userMenu.destroy();

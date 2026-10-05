@@ -98,6 +98,38 @@ Optional:
 - **Android:** In Chrome auf „App installieren“ tippen (oder Menü ⋮ → „Zum Startbildschirm hinzufügen“).
 - **iPhone/iPad:** In Safari auf „Teilen“ → „Zum Home-Bildschirm“.
 
+## Windows-Programm (.exe) zum Herunterladen
+
+Auf der Website gibt es oben rechts den Reiter **„Download“**. Dort bekommt man
+`PDF-Atelier-Setup.exe` (Windows 10/11, Verknüpfung auf Desktop und im Startmenü) sowie die
+Anleitung für Smartphones.
+
+Die `.exe` ist ein schlankes Programmfenster ([Electron](https://www.electronjs.org), Ordner
+`desktop/`), das deine Web-App lädt. **Jede Änderung an der Website ist dadurch sofort auch in
+der Windows-App aktiv**, du musst die `.exe` nur neu bauen, wenn sich Icon/Name ändern.
+
+Gebaut wird sie kostenlos von **GitHub Actions** (`.github/workflows/windows-app.yml`):
+
+1. **Adresse der Web-App hinterlegen:** GitHub → Repository → *Settings → Secrets and variables →
+   Actions → Reiter „Variables“ → New repository variable*: Name `APP_URL`, Wert z. B.
+   `https://pdf-atelier.vercel.app`.
+2. **Bauen:** *Actions → „Windows-App bauen“ → Run workflow.* Nach ca. 5 Minuten liegt die Datei
+   unter *Releases*.
+3. **Download-Link:** Die Website verlinkt automatisch auf
+   `https://github.com/IbrahimOE/PDF/releases/latest/download/PDF-Atelier-Setup.exe`.
+   Andere Adresse? In Vercel die Umgebungsvariable `VITE_DESKTOP_DOWNLOAD_URL` setzen.
+
+> **Wichtig:** Downloads aus Releases sind nur öffentlich erreichbar, wenn das Repository
+> **öffentlich** ist. Soll der Code privat bleiben, lege ein zweites, öffentliches Repository
+> (z. B. `PDF-Atelier-Download`) an und hinterlege im privaten Repository die Variable
+> `RELEASE_REPO` = `IbrahimOE/PDF-Atelier-Download` und das Secret `RELEASE_TOKEN` (ein
+> GitHub-Token mit Schreibrecht „Contents“ auf dieses Repository). Dann `VITE_DESKTOP_DOWNLOAD_URL`
+> in Vercel auf `https://github.com/IbrahimOE/PDF-Atelier-Download/releases/latest/download/PDF-Atelier-Setup.exe` setzen.
+
+> **Windows-SmartScreen:** Die `.exe` ist nicht digital signiert (ein Zertifikat kostet Geld).
+> Beim ersten Start kann Windows „Der Computer wurde durch Windows geschützt“ anzeigen →
+> „Weitere Informationen“ → „Trotzdem ausführen“. Darauf weist auch die Download-Seite hin.
+
 ## Entwicklung
 
 ```bash
@@ -136,6 +168,7 @@ src/
   styles/main.css         Design-System, Animationen, Hell/Dunkel
 public/icons/             App-Icon (SVG + PNG)
 scripts/                  Kopiert pdf.js-/OCR-Dateien, erzeugt Icons
+desktop/                  Windows-App (Electron) → PDF-Atelier-Setup.exe
 firestore.rules           Jede Person sieht nur ihr eigenes Profil
 ```
 

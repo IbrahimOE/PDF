@@ -70,7 +70,10 @@ export function onInstallChange(fn) {
   return () => listeners.delete(fn);
 }
 
-export const canInstall = () => !isStandalone();
+/** Läuft die App in der Windows-Desktop-Version (Electron)? */
+export const isDesktopApp = () => /\bElectron\//.test(navigator.userAgent);
+
+export const canInstall = () => !isStandalone() && !isDesktopApp();
 export const hasNativePrompt = () => !!deferredPrompt;
 
 export async function promptInstall() {

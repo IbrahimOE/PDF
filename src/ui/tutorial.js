@@ -13,6 +13,7 @@ function buildSteps() {
     { key: 'search', target: '#search-form' },
     { key: 'tray', target: () => (isMobile() ? '.tray-bar-wrap' : '#tray') },
     { key: 'lang', target: '#lang-switch' },
+    { key: 'download', target: '#download-tab' },
     { key: 'menu', target: '#user-menu-btn' },
     { key: 'done' },
   ].filter((s) => !s.target || findTarget(s));

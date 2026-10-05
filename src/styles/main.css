@@ -2361,6 +2361,110 @@ kbd {
   }
 }
 
+/* Download */
+.auth-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.download-tab {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  min-height: 40px;
+  border-radius: 12px;
+}
+.download-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary-text);
+  background: var(--surface);
+}
+.download-tab .icon {
+  color: var(--primary);
+}
+.download-modal {
+  max-width: 560px;
+}
+.download-card {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  animation: fadeSlide 0.4s var(--ease) both;
+}
+.download-card:nth-of-type(2) { animation-delay: 0.06s; }
+.download-card:nth-of-type(3) { animation-delay: 0.12s; }
+.download-card.highlight {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+}
+.download-card-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+.download-card-body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.download-card-body h3 {
+  font-size: 16px;
+}
+.download-card-body .muted {
+  font-size: 14px;
+}
+.download-actions {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  margin-top: 6px;
+}
+a.btn {
+  text-decoration: none;
+}
+.download-hint {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+.download-hint .icon {
+  margin-top: 2px;
+}
+.download-steps {
+  display: grid;
+  gap: 2px;
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+.download-steps ol {
+  margin: 0 0 6px;
+  padding-left: 20px;
+  color: var(--text-2);
+}
+@media (max-width: 640px) {
+  .download-label {
+    display: none;
+  }
+  .download-tab {
+    padding: 0;
+    width: 40px;
+  }
+  .download-actions .btn {
+    width: 100%;
+  }
+}
+
 /* =========================================================
    Hinweise (Toasts)
    ========================================================= */

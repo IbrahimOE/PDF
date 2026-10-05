@@ -1,0 +1,57 @@
+{
+  "name": "pdf-atelier-desktop",
+  "productName": "PDF Atelier",
+  "version": "1.0.0",
+  "description": "PDF Atelier für Windows",
+  "author": "PDF Atelier",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --publish never"
+  },
+  "build": {
+    "appId": "app.pdfatelier.desktop",
+    "productName": "PDF Atelier",
+    "copyright": "PDF Atelier",
+    "files": [
+      "main.js",
+      "config.json",
+      "offline.html",
+      "build/icon.ico"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "PDF Atelier",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "artifactName": "PDF-Atelier-Setup.exe",
+      "multiLanguageInstaller": true,
+      "installerLanguages": [
+        "de_DE",
+        "fr_FR"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  }
+}

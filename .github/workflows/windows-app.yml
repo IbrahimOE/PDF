@@ -1,0 +1,77 @@
+# Baut die Windows-App (PDF-Atelier-Setup.exe) und veröffentlicht sie als GitHub-Release.
+# Start: GitHub → Actions → „Windows-App bauen“ → „Run workflow“
+# (oder automatisch bei einem Tag wie desktop-v1.0.1).
+name: Windows-App bauen
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_url:
+        description: 'Adresse der Web-App (leer = Repository-Variable APP_URL)'
+        required: false
+        default: ''
+      publish:
+        description: 'Als Release veröffentlichen'
+        type: boolean
+        default: true
+  push:
+    tags: ['desktop-v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+
+      - name: Adresse der Web-App eintragen
+        env:
+          APP_URL: ${{ inputs.app_url || vars.APP_URL }}
+        run: |
+          if [ -z "$APP_URL" ]; then
+            echo "::error::Bitte unter Settings → Secrets and variables → Actions → Variables die Variable APP_URL anlegen (z. B. https://pdf-atelier.vercel.app)."
+            exit 1
+          fi
+          node -e "require('fs').writeFileSync('config.json', JSON.stringify({ appUrl: process.env.APP_URL.replace(/\/+$/, '') }, null, 2))"
+          cat config.json
+
+      - name: Version ermitteln
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - run: npm ci
+
+      - name: Installationsdatei bauen
+        run: npx electron-builder --win --publish never
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PDF-Atelier-Setup
+          path: desktop/release/PDF-Atelier-Setup.exe
+
+      - name: Als Release veröffentlichen
+        if: github.event_name == 'push' || inputs.publish
+        uses: softprops/action-gh-release@v2
+        with:
+          # Optional: Release in einem separaten, öffentlichen Repository (Variable RELEASE_REPO + Secret RELEASE_TOKEN)
+          repository: ${{ vars.RELEASE_REPO || github.repository }}
+          token: ${{ secrets.RELEASE_TOKEN || github.token }}
+          tag_name: ${{ github.event_name == 'push' && github.ref_name || format('desktop-v{0}', steps.version.outputs.version) }}
+          name: PDF Atelier für Windows ${{ steps.version.outputs.version }}
+          body: |
+            **PDF Atelier für Windows 10/11**
+            Herunterladen: `PDF-Atelier-Setup.exe` → doppelklicken → fertig (Verknüpfung auf dem Desktop und im Startmenü).
+          files: desktop/release/PDF-Atelier-Setup.exe
+          make_latest: true

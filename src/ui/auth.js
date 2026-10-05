@@ -1,6 +1,7 @@
 import { h, icon, clear } from './dom.js';
 import { t, getLang, onLangChange, applyTranslations } from '../i18n/index.js';
 import { langSwitch } from './langSwitch.js';
+import { downloadButton } from './download.js';
 import { getBackend } from '../services/backend.js';
 
 export const authFlags = { langPicked: false, justRegistered: false };
@@ -63,7 +64,7 @@ export function renderAuth(root) {
     'header.auth-top',
     {},
     h('div.brand.small', {}, h('img', { src: '/icons/icon.svg', alt: '', width: 32, height: 32 }), h('span', { 'data-i18n': 'app.name' })),
-    langSwitch({ onPick: () => (authFlags.langPicked = true) })
+    h('div.auth-top-actions', {}, downloadButton(), langSwitch({ onPick: () => (authFlags.langPicked = true) }))
   );
 
   const screen = h('div.auth-screen', {}, top, hero, h('div.auth-card-wrap', {}, card));
