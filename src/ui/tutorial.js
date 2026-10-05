@@ -11,6 +11,7 @@ function buildSteps() {
     { key: 'view', target: '#view-toggle' },
     { key: 'library', target: '#library' },
     { key: 'search', target: '#search-form' },
+    { key: 'convert', target: '#tab-convert' },
     { key: 'tray', target: () => (isMobile() ? '.tray-bar-wrap' : '#tray') },
     { key: 'lang', target: '#lang-switch' },
     { key: 'download', target: '#download-tab' },

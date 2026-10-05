@@ -7,6 +7,8 @@ import { mountLibrary, autoSelectFromSearch } from './library.js';
 import { mountTray } from './tray.js';
 import { promptInstall, canInstall } from './install.js';
 import { downloadButton } from './download.js';
+import { mountConvert, addConvertFiles } from './convert.js';
+import { kindOf } from '../services/convert.js';
 import { storageEstimate } from '../services/db.js';
 
 /** Hauptansicht nach der Anmeldung. */
@@ -121,7 +123,16 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
   const library = h('div.library', { id: 'library' });
 
   const tray = h('aside.tray', { id: 'tray' });
-  const workspace = h('main.workspace', {}, toolbar, libHead, processing, library);
+  const libraryPane = h('section.pane.library-pane', {}, toolbar, libHead, processing, library);
+  const convertPane = h('section.pane.convert-pane', { hidden: true });
+  const tabs = h(
+    'nav.main-tabs',
+    { role: 'tablist', 'data-active': '0' },
+    h('span.main-tabs-thumb'),
+    h('button', { type: 'button', role: 'tab', id: 'tab-library', onclick: () => setTab('library') }, icon('files', 18), h('span', { 'data-i18n': 'tabs.library' })),
+    h('button', { type: 'button', role: 'tab', id: 'tab-convert', onclick: () => setTab('convert') }, icon('magic', 18), h('span', { 'data-i18n': 'tabs.convert' }))
+  );
+  const workspace = h('main.workspace', {}, tabs, libraryPane, convertPane);
   const body = h('div.app-body', {}, workspace, tray);
   const dropOverlay = h(
     'div.drop-overlay',
@@ -133,6 +144,21 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
   applyTranslations(shell);
 
   const lib = mountLibrary(library, stats);
+  const conv = mountConvert(convertPane);
+  let tab = 'library';
+  function setTab(next) {
+    if (next === tab) return;
+    tab = next;
+    const apply = () => {
+      libraryPane.hidden = tab !== 'library';
+      convertPane.hidden = tab !== 'convert';
+      shell.classList.toggle('tab-convert', tab === 'convert');
+      tabs.dataset.active = tab === 'convert' ? '1' : '0';
+      tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.id === `tab-${tab}`)));
+    };
+    document.startViewTransition ? document.startViewTransition(apply) : apply();
+  }
+  tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.id === 'tab-library')));
   const trayCtl = mountTray(tray);
   syncView();
 
@@ -180,7 +206,15 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
     e.preventDefault();
     dragDepth = 0;
     shell.classList.remove('dragging');
-    actions.importFiles(e.dataTransfer.files);
+    const files = [...e.dataTransfer.files];
+    if (tab === 'convert') {
+      addConvertFiles(files);
+      return;
+    }
+    const pdfs = files.filter((f) => kindOf(f) === 'pdf');
+    const others = files.filter((f) => kindOf(f) !== 'pdf');
+    if (pdfs.length) actions.importFiles(pdfs);
+    if (others.length && addConvertFiles(others)) setTab('convert');
   };
   window.addEventListener('dragenter', onDragEnter);
   window.addEventListener('dragover', onDragOver);
@@ -216,6 +250,7 @@ export function renderApp(root, { onLogout, onTutorial, onLangPicked }) {
     destroy() {
       offs.forEach((off) => off());
       lib.destroy();
+      conv.destroy();
       trayCtl.destroy();
       userMenu.destroy();
       window.removeEventListener('dragenter', onDragEnter);

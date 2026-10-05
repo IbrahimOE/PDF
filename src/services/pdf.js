@@ -62,7 +62,8 @@ export function forgetDoc(fileId) {
  * Gruppiert die Textelemente einer Seite in Zeilen und ermittelt die Überschrift:
  * die oberste Zeile mit der größten Schrift (oder die erste kurze Zeile, wenn alles gleich groß ist).
  */
-export function analyzeText(items) {
+/** Gruppiert die Textelemente einer Seite in Zeilen (von oben nach unten) mit Schriftgröße und Position. */
+export function groupLines(items) {
   const parts = items
     .filter((it) => typeof it.str === 'string' && it.str.trim())
     .map((it) => ({
@@ -72,8 +73,6 @@ export function analyzeText(items) {
       w: it.width || 0,
       size: Math.hypot(it.transform[2], it.transform[3]) || it.height || 10,
     }));
-  if (!parts.length) return { text: '', heading: '' };
-
   const lines = [];
   for (const p of parts) {
     let line = lines.find((l) => Math.abs(l.y - p.y) < Math.max(2, Math.min(l.size, p.size) * 0.5));
@@ -98,8 +97,15 @@ export function analyzeText(items) {
       prev = p;
     }
     l.text = s.replace(/\s+/g, ' ').trim();
+    l.x = l.parts[0].x;
   }
-  const textLines = lines.filter((l) => l.text);
+  return lines.filter((l) => l.text);
+}
+
+export function analyzeText(items) {
+  const lines = groupLines(items);
+  if (!lines.length) return { text: '', heading: '' };
+  const textLines = lines;
   const text = textLines.map((l) => l.text).join('\n');
 
   const candidates = textLines.filter((l) => /[\p{L}\p{N}]/u.test(l.text) && l.text.length <= 140);

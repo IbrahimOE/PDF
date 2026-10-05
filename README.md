@@ -15,6 +15,7 @@ Zweisprachig (Deutsch / Français), mit Login, Tutorial und Texterkennung. Kompl
 | 🔠 **Texterkennung (OCR)** | Eingescannte Seiten ohne Text werden auf Knopfdruck durchsuchbar (Deutsch + Französisch). Das läuft direkt im Browser. |
 | ✅ **Auswählen & sortieren** | Einzelne Seiten oder ganze Dateien auswählen, per Drag & Drop sortieren und drehen |
 | 📎 **Exportieren** | Auswahl als **eine** PDF herunterladen oder (am Smartphone) direkt teilen |
+| 🔄 **Umwandeln** | Eigener Reiter: PDF ↔ Word (DOCX), PDF → PowerPoint/PNG/JPG/TXT/Markdown/HTML, Excel ↔ CSV, Excel/CSV/TXT/Markdown/HTML → PDF oder Word, Bilder (PNG/JPG/WEBP/GIF/BMP) → PDF oder anderes Bildformat. Beim Exportieren der Auswahl lässt sich der Dateityp per Dropdown wählen. Alles läuft im Browser. |
 | 🌍 **DE / FR** | Dropdown oben rechts: Die ganze App wechselt die Sprache, auch die E-Mails von Firebase |
 | 🔐 **Konto** | Registrierung, Login, „Passwort vergessen“ (E-Mail), Bestätigungs-E-Mail |
 | 🎓 **Tutorial** | Startet nach der Registrierung automatisch und lässt sich jederzeit über das Konto-Menü wiederholen |
